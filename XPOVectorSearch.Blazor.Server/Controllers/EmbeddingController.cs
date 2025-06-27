@@ -1,10 +1,10 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.SystemModule;
-using XAFVectorSearch.Blazor.Server.Services;
-using XAFVectorSearch.Module.BusinessObjects;
+using XPOVectorSearch.Blazor.Server.Services; // XAF -> XPO
+using XPOVectorSearch.Module.BusinessObjects; // XAF -> XPO
 
-namespace XAFVectorSearch.Blazor.Server.Controllers; 
+namespace XPOVectorSearch.Blazor.Server.Controllers; // XAF -> XPO
 
 public  class EmbeddingController : ViewController {
     readonly SimpleAction embeddingAction;

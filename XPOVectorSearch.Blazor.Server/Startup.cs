@@ -1,6 +1,4 @@
-﻿using Azure;
-using Azure.AI.OpenAI;
-using DevExpress.AIIntegration;
+﻿using DevExpress.AIIntegration;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
@@ -8,7 +6,7 @@ using DevExpress.ExpressApp.Blazor.Services;
 using DevExpress.ExpressApp.WebApi.Services;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 using Microsoft.AspNetCore.OData;
-using Microsoft.EntityFrameworkCore;
+// using Microsoft.EntityFrameworkCore; // Kaldırıldı
 using Microsoft.Extensions.AI;
 using Microsoft.OpenApi.Models;
 using Microsoft.SemanticKernel;
@@ -17,9 +15,9 @@ using System.Text.Json.Serialization;
 using XAFVectorSearch.Blazor.Server.ContentDecoders;
 using XAFVectorSearch.Blazor.Server.Helpers;
 using XAFVectorSearch.Blazor.Server.Services;
-using XAFVectorSearch.Blazor.Server.Settings;
+using XPOVectorSearch.Blazor.Server.Settings; // Ad alanı XPO olarak güncellendi
 
-namespace XAFVectorSearch.Blazor.Server;
+namespace XPOVectorSearch.Blazor.Server; // Ad alanı XPO olarak güncellendi
 
 public class Startup(IConfiguration configuration)
 {
@@ -43,28 +41,26 @@ public class Startup(IConfiguration configuration)
             builder.Services.AddDevExpressBlazor();
 
             AppSettings appSettings = null;
-            AzureOpenAISettings aiSettings = null;
+            OpenAISettings aiSettings = null; // AzureOpenAISettings -> OpenAISettings
             if (!ModuleHelper.IsDesignMode)
             {
                 appSettings = builder.Services.ConfigureAndGet<AppSettings>(Configuration, nameof(AppSettings))!;
-                aiSettings = builder.Services.ConfigureAndGet<AzureOpenAISettings>(Configuration, "AzureOpenAI")!;
+                aiSettings = builder.Services.ConfigureAndGet<OpenAISettings>(Configuration, "OpenAI")!; // "AzureOpenAI" -> "OpenAI"
 
-                var azureOpenAIClient = new AzureOpenAIClient(
-            new Uri(aiSettings.ChatCompletion.Endpoint),
-            new AzureKeyCredential(aiSettings.ChatCompletion.ApiKey));
-                builder.Services.AddChatClient(azureOpenAIClient?.AsChatClient(aiSettings?.ChatCompletion?.ModelId));
+                // OpenAIClient doğrudan AddKernel içinde veya AddOpenAI ile yapılandırılacak.
+                // DevExpress.AIIntegration.OpenAI paketi bunu ele alabilir.
+                // builder.Services.AddSingleton(new OpenAIClient(aiSettings.ApiKey)); // Bu satır gerekirse eklenecek
+
                 builder.Services.AddDevExpressAI((config) =>
                 {
-                    config.RegisterOpenAIAssistants(
-                           azureOpenAIClient, aiSettings?.ChatCompletion?.ModelId);
+                    // config.RegisterOpenAIAssistants normalde bir OpenAIClient ve modelId bekler.
+                    // Microsoft.Extensions.AI.OpenAI ile entegrasyonu kontrol etmemiz gerekiyor.
+                    // Doğrudan OpenAIClient sağlamak yerine, IConfiguration'dan okunan ayarlarla yapılandırılabilir.
+                    config.RegisterOpenAIAssistants(aiSettings.ApiKey, aiSettings.ChatCompletionModelId);
                 });
             }
 
-
-
-
-
-            builder.UseApplication<XAFVectorSearchBlazorApplication>();
+            builder.UseApplication<XPOVectorSearchBlazorApplication>(); // XAFVectorSearchBlazorApplication -> XPOVectorSearchBlazorApplication
 
             builder.AddXafWebApi(webApiBuilder =>
             {
@@ -82,39 +78,33 @@ public class Startup(IConfiguration configuration)
                 {
                     options.AllowValidationDetailsAccess = false;
                 })
-                .Add<Module.XAFVectorSearchModule>()
-                .Add<XAFVectorSearchBlazorModule>();
+                .Add<Module.XPOVectorSearchModule>() // XAFVectorSearchModule -> XPOVectorSearchModule
+                .Add<XPOVectorSearchBlazorModule>(); // XAFVectorSearchBlazorModule -> XPOVectorSearchBlazorModule
             builder.ObjectSpaceProviders
-                .AddEFCore(options => options.PreFetchReferenceProperties())
-                    .WithDbContext<Module.BusinessObjects.XAFVectorSearchDBContext>((serviceProvider, options) =>
+                .AddXpo((serviceProvider, options) => { // AddEFCore -> AddXpo, DbContext konfigürasyonu kaldırıldı
+                    string connectionString = null;
+                    if (!ModuleHelper.IsDesignMode) // Tasarım zamanı kontrolleri XPO için de geçerli olabilir
                     {
-                        // Uncomment this code to use an in-memory database. This database is recreated each time the server starts. With the in-memory database, you don't need to make a migration when the data model is changed.
-                        // Do not use this code in production environment to avoid data loss.
-                        // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
-                        //options.UseInMemoryDatabase("InMemory");
-                        string connectionString = null;
-                        if (!ModuleHelper.IsDesignMode)
+                        if (Configuration.GetConnectionString("ConnectionString") != null)
                         {
-
-                            if (Configuration.GetConnectionString("ConnectionString") != null)
-                            {
-                                connectionString = Configuration.GetConnectionString("ConnectionString");
-                            }
-
-                            ArgumentNullException.ThrowIfNull(connectionString);
-                            options.UseSqlServer(connectionString, options => options.UseVectorSearch());
-
+                            connectionString = Configuration.GetConnectionString("ConnectionString");
                         }
+                        ArgumentNullException.ThrowIfNull(connectionString);
+                        options.ConnectionString = connectionString;
+                        options.ThreadSafe = true;
+                        options.UseSharedDataStore = true;
+
+                        // XPO'da veritabanı şeması güncelleme ayarları farklıdır.
+                        // options.SchemaUpdateMode = SchemaUpdateMode.UpdateDatabaseAlways; // Gerekirse eklenebilir veya DatabaseUpdateMode kullanılır.
+                        // XPO, UseVectorSearch() gibi özel bir metoda sahip değil. Bu işlevsellik ham SQL ile sağlanacak.
+                    }
 #if EASYTEST
-                        if(Configuration.GetConnectionString("EasyTestConnectionString") != null) {
-                            connectionString = Configuration.GetConnectionString("EasyTestConnectionString");
-                        }
+                    if(Configuration.GetConnectionString("EasyTestConnectionString") != null) {
+                        connectionString = Configuration.GetConnectionString("EasyTestConnectionString");
+                        options.ConnectionString = connectionString; // EasyTest için de bağlantı dizesi ayarla
+                    }
 #endif
-
-                        options.UseChangeTrackingProxies();
-                        options.UseObjectSpaceLinkProxies();
-                        options.UseLazyLoadingProxies();
-                    })
+                })
                 .AddNonPersistent();
 
 #pragma warning disable EXTEXP0018 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
@@ -146,8 +136,11 @@ public class Startup(IConfiguration configuration)
             if (!ModuleHelper.IsDesignMode)
             {
                 builder.Services.AddKernel()
-                .AddAzureOpenAITextEmbeddingGeneration(aiSettings?.Embedding?.Deployment, aiSettings?.Embedding?.Endpoint, aiSettings?.Embedding?.ApiKey, dimensions: aiSettings?.Embedding?.Dimensions)
-                .AddAzureOpenAIChatCompletion(aiSettings?.ChatCompletion?.Deployment, aiSettings?.ChatCompletion?.Endpoint, aiSettings?.ChatCompletion?.ApiKey);
+                // .AddAzureOpenAITextEmbeddingGeneration(aiSettings?.Embedding?.Deployment, aiSettings?.Embedding?.Endpoint, aiSettings?.Embedding?.ApiKey, dimensions: aiSettings?.Embedding?.Dimensions)
+                // .AddAzureOpenAIChatCompletion(aiSettings?.ChatCompletion?.Deployment, aiSettings?.ChatCompletion?.Endpoint, aiSettings?.ChatCompletion?.ApiKey);
+                // Yukarıdakiler yerine OpenAI servislerini kullanacağız:
+                .AddOpenAITextEmbeddingGeneration(aiSettings.EmbeddingModelId, aiSettings.ApiKey, dimensions: aiSettings.EmbeddingDimensions)
+                .AddOpenAIChatCompletion(aiSettings.ChatCompletionModelId, aiSettings.ApiKey);
             }
 #pragma warning restore SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
@@ -179,9 +172,9 @@ public class Startup(IConfiguration configuration)
             c.EnableAnnotations();
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "XAFVectorSearch API",
+                Title = "XPOVectorSearch API", // XAFVectorSearch API -> XPOVectorSearch API
                 Version = "v1",
-                Description = @"Use AddXafWebApi(options) in the XAFVectorSearch.Blazor.Server\Startup.cs file to make Business Objects available in the Web API."
+                Description = @"Use AddXafWebApi(options) in the XPOVectorSearch.Blazor.Server\Startup.cs file to make Business Objects available in the Web API." // XAFVectorSearch.Blazor.Server -> XPOVectorSearch.Blazor.Server
             });
         });
 

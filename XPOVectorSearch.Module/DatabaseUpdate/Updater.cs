@@ -2,11 +2,11 @@
 using DevExpress.Data.Filtering;
 using DevExpress.Persistent.Base;
 using DevExpress.ExpressApp.Updating;
-using DevExpress.ExpressApp.EF;
-using DevExpress.Persistent.BaseImpl.EF;
-using Microsoft.Extensions.DependencyInjection;
+// using DevExpress.ExpressApp.EF; // Kaldırıldı
+// using DevExpress.Persistent.BaseImpl.EF; // Kaldırıldı
+// using Microsoft.Extensions.DependencyInjection; // Bu using burada gereksiz gibi duruyor.
 
-namespace XAFVectorSearch.Module.DatabaseUpdate;
+namespace XPOVectorSearch.Module.DatabaseUpdate; // XAF -> XPO
 
 // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Updating.ModuleUpdater
 public class Updater(IObjectSpace objectSpace, Version currentDBVersion) : ModuleUpdater(objectSpace, currentDBVersion) {

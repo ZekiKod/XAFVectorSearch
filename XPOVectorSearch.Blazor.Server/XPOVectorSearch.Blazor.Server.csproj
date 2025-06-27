@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DevExpress.AIIntegration" Version="24.2.3" />
-    <PackageReference Include="DevExpress.AIIntegration.Azure.TextAnalytics" Version="24.2.3" />
+    <!-- <PackageReference Include="DevExpress.AIIntegration.Azure.TextAnalytics" Version="24.2.3" /> --> <!-- Kaldırıldı -->
     <PackageReference Include="DevExpress.AIIntegration.Blazor" Version="24.2.3" />
     <PackageReference Include="DevExpress.AIIntegration.Blazor.Chat" Version="24.2.3" />
     <PackageReference Include="DevExpress.AIIntegration.Blazor.Common" Version="24.2.3" />
@@ -38,7 +38,7 @@
     <PackageReference Include="DevExpress.Blazor.Viewer" Version="24.2.3" />
     <PackageReference Include="DevExpress.Document.Processor" Version="24.2.3" />
     <PackageReference Include="DevExpress.Drawing.Skia" Version="24.2.3" />
-    <PackageReference Include="DevExpress.ExpressApp.Api.EFCore.All" Version="24.2.3" />
+    <!-- <PackageReference Include="DevExpress.ExpressApp.Api.EFCore.All" Version="24.2.3" /> --> <!-- Kaldırıldı -->
     <PackageReference Include="DevExpress.ExpressApp.Blazor" Version="24.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="24.2.3">
       <PrivateAssets>all</PrivateAssets>
@@ -47,11 +47,11 @@
     <PackageReference Include="DevExpress.ExpressApp.FileAttachment.Blazor" Version="24.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.Validation" Version="24.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.Validation.Blazor" Version="24.2.3" />
-    <PackageReference Include="EFCore.SqlServer.VectorSearch" Version="9.0.0-preview.2" />
+    <!-- <PackageReference Include="EFCore.SqlServer.VectorSearch" Version="9.0.0-preview.2" /> --> <!-- Kaldırıldı -->
     <PackageReference Include="Markdig" Version="0.40.0" />
     <PackageReference Include="Microsoft.Extensions.AI" Version="9.1.0-preview.1.25064.3" />
     <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="9.1.0-preview.1.25064.3" />
-    <PackageReference Include="Microsoft.Extensions.AI.AzureAIInference" Version="9.1.0-preview.1.25064.3" />
+    <!-- <PackageReference Include="Microsoft.Extensions.AI.AzureAIInference" Version="9.1.0-preview.1.25064.3" /> --> <!-- Kaldırıldı -->
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.1.0-preview.1.25064.3" />
     <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="9.1.0-preview.1.25064.3" />
     <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.2.0" />
@@ -62,7 +62,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XAFVectorSearch.Module\XAFVectorSearch.Module.csproj" />
+    <ProjectReference Include="..\XPOVectorSearch.Module\XPOVectorSearch.Module.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\RagChat\" />

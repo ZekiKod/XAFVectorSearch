@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
-using XAFVectorSearch.Blazor.Server.Settings;
+using Microsoft.SemanticKernel.Connectors.OpenAI; // AzureOpenAI -> OpenAI
+using XPOVectorSearch.Blazor.Server.Settings; // XAFVectorSearch -> XPOVectorSearch
 
-namespace XAFVectorSearch.Blazor.Server.Services;
+namespace XPOVectorSearch.Blazor.Server.Services; // XAFVectorSearch -> XPOVectorSearch
 
 public class ChatService(IChatCompletionService chatCompletionService, TokenizerService tokenizerService, HybridCache cache, IOptions<AppSettings> appSettingsOptions)
 {
@@ -38,7 +38,7 @@ public class ChatService(IChatCompletionService chatCompletionService, Tokenizer
     {
         var chat = CreateChat(chunks, question);
 
-        var answer = await chatCompletionService.GetChatMessageContentAsync(chat, new AzureOpenAIPromptExecutionSettings
+        var answer = await chatCompletionService.GetChatMessageContentAsync(chat, new OpenAIPromptExecutionSettings // AzureOpenAIPromptExecutionSettings -> OpenAIPromptExecutionSettings
         {
             MaxTokens = appSettings.MaxOutputTokens
         });
@@ -54,7 +54,7 @@ public class ChatService(IChatCompletionService chatCompletionService, Tokenizer
         var chat = CreateChat(chunks, question);
 
         var answer = new StringBuilder();
-        await foreach (var token in chatCompletionService.GetStreamingChatMessageContentsAsync(chat, new AzureOpenAIPromptExecutionSettings
+        await foreach (var token in chatCompletionService.GetStreamingChatMessageContentsAsync(chat, new OpenAIPromptExecutionSettings // AzureOpenAIPromptExecutionSettings -> OpenAIPromptExecutionSettings
         {
             MaxTokens = appSettings.MaxOutputTokens
         }))

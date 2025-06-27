@@ -1,13 +1,13 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Blazor;
 
-namespace XAFVectorSearch.Blazor.Server;
+namespace XPOVectorSearch.Blazor.Server; // XAF -> XPO
 
-public class XAFVectorSearchBlazorApplication : BlazorApplication {
-    public XAFVectorSearchBlazorApplication() {
-        ApplicationName = "XAFVectorSearch";
+public class XPOVectorSearchBlazorApplication : BlazorApplication { // XAF -> XPO
+    public XPOVectorSearchBlazorApplication() {
+        ApplicationName = "XPOVectorSearch"; // XAF -> XPO
         CheckCompatibilityType = DevExpress.ExpressApp.CheckCompatibilityType.DatabaseSchema;
-        DatabaseVersionMismatch += XAFVectorSearchBlazorApplication_DatabaseVersionMismatch;
+        DatabaseVersionMismatch += XPOVectorSearchBlazorApplication_DatabaseVersionMismatch; // XAF -> XPO
     }
     protected override void OnSetupStarted() {
         base.OnSetupStarted();
@@ -17,7 +17,7 @@ public class XAFVectorSearchBlazorApplication : BlazorApplication {
         }
 #endif
     }
-    private void XAFVectorSearchBlazorApplication_DatabaseVersionMismatch(object sender, DatabaseVersionMismatchEventArgs e) {
+    private void XPOVectorSearchBlazorApplication_DatabaseVersionMismatch(object sender, DatabaseVersionMismatchEventArgs e) { // XAF -> XPO
 #if EASYTEST
         e.Updater.Update();
         e.Handled = true;

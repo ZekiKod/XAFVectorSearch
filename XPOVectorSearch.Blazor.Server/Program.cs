@@ -4,7 +4,7 @@ using DevExpress.ExpressApp.Design;
 using DevExpress.ExpressApp.Utils;
 using System.Reflection;
 
-namespace XAFVectorSearch.Blazor.Server;
+namespace XPOVectorSearch.Blazor.Server; // XAF -> XPO
 
 public class Program : IDesignTimeApplicationFactory {
     private static bool ContainsArgument(string[] args, string argument) {

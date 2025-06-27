@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="XAFVectorSearch">
+<Application Title="XPOVectorSearch"> <!-- XAF -> XPO -->
   <NavigationItems>
     <Items>
       <Item Id="NIDocuments" ViewId="Documents_ListView" ImageName="Action_Document_Object_Inplace" IsNewNode="True" />
@@ -13,7 +13,7 @@
   </SchemaModules>
   <Validation>
     <Rules>
-      <RuleRequiredField Id="VRRFFile_Documents" TargetType="XAFVectorSearch.Module.BusinessObjects.Documents" TargetPropertyName="File" TargetContextIDs="Save" IsNewNode="True" />
+      <RuleRequiredField Id="VRRFFile_Documents" TargetType="XPOVectorSearch.Module.BusinessObjects.Documents" TargetPropertyName="File" TargetContextIDs="Save" IsNewNode="True" /> <!-- XAF -> XPO -->
     </Rules>
   </Validation>
 </Application>

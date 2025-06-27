@@ -18,19 +18,20 @@
     <PackageReference Include="DevExpress.ExpressApp" Version="24.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="24.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.ConditionalAppearance" Version="24.2.3" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.2.3" />
+    <!-- <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.2.3" /> --> <!-- Kaldırıldı -->
     <PackageReference Include="DevExpress.ExpressApp.Objects" Version="24.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.Validation" Version="24.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Xpo" Version="24.2.3" /> <!-- Eklendi -->
     <PackageReference Include="DevExpress.Persistent.Base" Version="24.2.3" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.2.3" />
+    <!-- <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.2.3" /> --> <!-- Kaldırıldı -->
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <!-- <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.1" /> --> <!-- Kaldırıldı -->
+    <!-- <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.1" /> --> <!-- Kaldırıldı -->
+    <!-- <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" /> --> <!-- Kaldırıldı -->
+    <!-- <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1"> -->
+      <!-- <PrivateAssets>all</PrivateAssets> -->
+      <!-- <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets> -->
+    <!-- </PackageReference> --> <!-- Kaldırıldı -->
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.4.0" />
   </ItemGroup>
 </Project>

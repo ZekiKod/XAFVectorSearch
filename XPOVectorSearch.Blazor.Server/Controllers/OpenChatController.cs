@@ -1,9 +1,9 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
-using XAFVectorSearch.Blazor.Server.Controls.RagChat;
-using XAFVectorSearch.Module.BusinessObjects;
+using XPOVectorSearch.Blazor.Server.Controls.RagChat; // XAF -> XPO
+using XPOVectorSearch.Module.BusinessObjects; // XAF -> XPO
 
-namespace XAFVectorSearch.Blazor.Server.Controllers;
+namespace XPOVectorSearch.Blazor.Server.Controllers; // XAF -> XPO
 
 public class OpenChatController : ViewController
 {
